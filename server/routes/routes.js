@@ -10,6 +10,6 @@ router.post("/login", LoginUser);
 
 //infos
 // router.get("/infos", GetAllInfos);
-router.get("/detail/101612758411", GetInfo);
+router.get("/detail/:UANNumber", GetInfo);
 
 export default router;

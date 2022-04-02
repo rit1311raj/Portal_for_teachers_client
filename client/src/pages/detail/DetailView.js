@@ -20,23 +20,25 @@ import {
   ViewColumn,
 } from "@material-ui/icons";
 import { getInfo } from "../../service/api";
+import { useParams } from "react-router-dom";
 const DetailView = () => {
   const [info, setInfo] = useState({});
-  // const { id } = useParams();
+  const { UANNumber } = useParams();
   useEffect(() => {
     const fetchData = async () => {
-      let data = await getInfo("101612758411");
-      console.log(data);
+      let data = await getInfo(UANNumber);
+      console.log("data is ", data);
       setInfo(data);
-      var convert = Object.keys(data).map(function (key) {
-        return [key, data[key]];
+      console.log("info is ", info);
+      var convert = Object.keys(data[0]).map(function (key) {
+        return [key, data[0][key]];
       });
-      console.log(convert);
-      setInfo(data);
+      console.log("convert is ", convert);
+      setInfo(data[0]);
+      console.log("info is ", info);
     };
     fetchData();
   }, []);
-
   const data = [
     { key: "EST_SL", value: `${info.EST_SL}` },
     { key: "SL_NO", value: `${info.SL_NO}` },
@@ -69,7 +71,6 @@ const DetailView = () => {
     },
     { title: "Details", field: "value", align: "center", sorting: false },
   ];
-
   const tableIcons = {
     Add: forwardRef((props, ref) => <AddBox {...props} ref={ref} />),
     Check: forwardRef((props, ref) => <Check {...props} ref={ref} />),
@@ -99,7 +100,7 @@ const DetailView = () => {
   };
 
   return (
-    <Grid xs={12} sm={6} style={{ margin: "20px auto" }}>
+    <Grid xs={12} sm={6} style={{ margin: "20px auto" }} >
       <MaterialTable
         title={info.TeacherName}
         data={data}
